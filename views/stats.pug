@@ -33,7 +33,7 @@ block content
     script(src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js")
     script.
       // Fetch data from the API endpoint for Tour Bookings
-      fetch('http://127.0.0.1:3000/api/v1/bookings/stat')
+      fetch('/api/v1/bookings/stat')
           .then(response => response.json())
           .then(({ status, data }) => {
               const bookingData = data.doc;
@@ -63,7 +63,7 @@ block content
           .catch(error => console.error('Error fetching booking data:', error));
 
       // Fetching tour data for Ratings Average, Ratings Quantity, and Max Group Size
-      fetch('http://127.0.0.1:3000/api/v1/tours')
+      fetch('/api/v1/tours')
           .then(response => response.json())
           .then(({ data: { doc }}) => {
               const tourNames = doc.map(({ name }) => name);
