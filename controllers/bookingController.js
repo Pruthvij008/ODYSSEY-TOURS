@@ -87,6 +87,11 @@ exports.getbookingstats = catchAsync(async (req, res, next) => {
         totalRevenue: { $sum: '$price' },
         avgPrice: { $avg: '$price' }
       }
+    },
+    {
+      $match: {
+        _id: { $ne: [] } // Remove entries where _id is an empty array
+      }
     }
   ]);
 
