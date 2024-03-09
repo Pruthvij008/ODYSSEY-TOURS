@@ -1,0 +1,25 @@
+extends baseEmail
+
+block content
+    p Hi #{firstName},
+    p A new tour has been created: #{tour.name} 🎉
+    p Here are the details:
+    ul
+        li Name: #{tour.name}
+        li Duration: #{tour.duration} days
+        li Max Group Size: #{tour.maxGroupSize}
+        li Difficulty: #{tour.difficulty}
+        li Price: #{tour.price}
+        li Start Location: #{tour.startLocation.description} (Coordinates: #{tour.startLocation.coordinates})
+        li Locations:
+            ul
+                each location in tour.locations
+                    li #{location.description} (Day #{location.day})
+        li Start Dates:
+            ul
+                each date in tour.startDates
+                    li #{date}
+    p If you'd like to view more details or book this tour, please visit:
+     a(href=`http://127.0.0.1:3000/tour/${tour.slug}`,target='_blank') View Tour Details
+    p If you have any questions or need further information, feel free to contact us!
+    p - PRUTHVIJ DESAI, CEO

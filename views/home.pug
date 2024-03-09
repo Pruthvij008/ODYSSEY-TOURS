@@ -1,0 +1,96 @@
+extends base
+
+block content
+  doctype html
+  head
+
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='generator' content='')
+    meta(name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1')
+    link(rel='shortcut icon' href='assets/images/logo5.png' type='image/x-icon')
+    meta(name='description' content='')
+    title Page 2
+    link(rel='stylesheet' href='assets/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet' href='assets/bootstrap/css/bootstrap-grid.min.css')
+    link(rel='stylesheet' href='assets/bootstrap/css/bootstrap-reboot.min.css')
+    link(rel='stylesheet' href='assets/parallax/jarallax.css')
+    link(rel='stylesheet' href='assets/animatecss/animate.css')
+    link(rel='stylesheet' href='assets/theme/css/style.css')
+    link(rel='preload' href='https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap' as='style' onload="this.onload=null;this.rel='stylesheet'")
+    noscript
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap')
+    link(rel='preload' as='style' href='/assets/mobirise/css/mbr-additional.css?v=UXxtKw')
+    link(rel='stylesheet' href='/assets/mobirise/css/mbr-additional.css?v=UXxtKw' type='text/css')
+  section#header01-29.header1.cid-u5srpkanAn(data-bs-version='5.1')
+    .container-fluid
+      .row.justify-content-center
+        .col-12.col-md-12.col-lg-8.image-wrapper
+          img.w-100(src='assets/images/mbr-1831x1144.jpg' alt='')
+        .col-12.col-lg.col-md-12
+          .text-wrapper.align-left
+            h1.mbr-section-title.mbr-fonts-style.mb-4.display-2
+              strong Welcome to Odyssey Tours!
+            p.mbr-text.mbr-fonts-style.mb-4.display-7
+              | Embark on a journey of discovery with Odyssey Tours. Explore ancient wonders, vibrant cultures, and breathtaking landscapes. Let us guide you to unforgettable experiences and hidden gems. Start your adventure today!
+            .mbr-section-btn.mt-3
+              a.btn.btn-danger.display-7(href='/') Explore Tours
+  section#header17-2a.header16.cid-u5syq4k844.mbr-fullscreen.mbr-parallax-background(data-bs-version='5.1')
+    .container-fluid
+      .row
+        .content-wrap.col-12.col-md-12
+          h1.mbr-section-title.mbr-fonts-style.mbr-white.mb-4.display-1
+            strong
+              br
+              | Discover the World's Best-Kept Secrets with Us!
+          .mbr-section-btn
+            a.btn.btn-white-outline.display-7(href='/') Unveil the Unseen!
+  section#people04-2b.people04.cid-u5syE0sfxL(data-bs-version='5.1')
+    .container
+        .row.mb-5.justify-content-center
+            .col-12.mb-0.content-head
+                h3.mbr-section-title.mbr-fonts-style.align-center.mb-0.display-2
+                    strong Testimonials
+        .row.mbr-masonry(data-masonry='{"percentPosition": true }')
+            each review in reviews
+                .item.features-without-image.col-12.col-md-6.col-lg-4
+                    .item-wrapper
+                        .card-box.align-left
+                            p.card-text.mbr-fonts-style.display-7
+                                | #{review.review}
+                            .img-wrapper.mt-4.mb-2
+                                img(src=`img/users/${review.user.photo}` alt='' data-slide-to='0' data-bs-slide-to='0')
+                            h5.card-title.mbr-fonts-style.display-7
+                                strong #{review.user.name}
+  section#form02-2c.form5.cid-u5syIDKcx1(data-bs-version='5.1')
+    .container
+      .row.justify-content-center
+        .col-12.content-head
+          .mbr-section-head.mb-5
+            h3.mbr-section-title.mbr-fonts-style.align-center.mb-0.display-2
+              strong Stay in the Loop: Get Exclusive Tour Updates!
+      .row.justify-content-center
+        .col-lg-8.mx-auto.mbr-form(data-form-type='formoid')
+          form.mbr-form.form-with-styler(id='tour-update-form' data-form-title='Tour Update Form')
+            input(type='hidden' name='email' data-form-email='true' value='')
+            .row
+              .alert.alert-success.col-12(hidden='hidden' data-form-alert='') Thanks for filling out the form!
+              .alert.alert-danger.col-12(hidden='hidden' data-form-alert-danger='')
+                | Oops...! some problem!
+            .dragArea.row
+              .col-md.col-sm-12.form-group.mb-3(data-for='name')
+                input#name-form02-2c.form-control(type='text' name='name' placeholder='Name' data-form-field='name' value='')
+              .col-md.col-sm-12.form-group.mb-3(data-for='email')
+                input#email-form02-2c.form-control(type='email' name='email' placeholder='E-mail' data-form-field='email' value='')
+              .col-lg-12.col-md-12.col-sm-12.align-center.mbr-section-btn
+                button.btn.btn-primary.display-7(type='button', id='submit-btn') Send message
+
+  script(src='assets/bootstrap/js/bootstrap.bundle.min.js')
+  script(src='assets/parallax/jarallax.js')
+  script(src='assets/smoothscroll/smooth-scroll.js')
+  script(src='assets/ytplayer/index.js')
+  script(src='assets/masonry/masonry.pkgd.min.js')
+  script(src='assets/imagesloaded/imagesloaded.pkgd.min.js')
+  script(src='assets/theme/js/script.js')
+  script(src='assets/formoid/formoid.min.js')
+  input(name='animation' type='hidden')

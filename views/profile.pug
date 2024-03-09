@@ -1,0 +1,34 @@
+extends base
+
+block content
+  style.
+    .card__picture-overlayy {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5; /* Adjust opacity as needed */
+    }
+
+  main.main
+    .card-container
+      each user in users
+        .card
+          .card__header
+            .card__picture
+              .card__picture-overlayy &nbsp;
+              img.card__picture-img(src=`/img/users/${user.photo}`, alt=`${user.name}`)
+            h3.heading-tertirary
+              span= user.name
+
+          .card__details
+            p.card__text= user.email
+            p.card__text= user.role
+        
+          .card__footer
+            button.btn.btn--del.btn--small.delete-btn(data-user-id=`${user._id}`) Delete
+            select(role=user.role)
+              option(value="user") User
+              option(value="guide") Guide
+              option(value="lead-guide") Lead Guide
+              option(value="admin") Admin
+            button.btn.btn--green.btn--small.update-btn(type="button" data-id=user._id) Update

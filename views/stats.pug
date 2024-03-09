@@ -1,0 +1,123 @@
+
+extends base
+
+block content
+  // Main content area
+  main.main
+    // Heading for the section
+    h1.heading-secondary Statistics
+
+    // Container for charts
+    .charts-container
+      // Chart for Tour Bookings
+      .chart-wrapper
+        h2 Tour Bookings
+        canvas#tourBookingsChart(width="300", height="150")
+
+      // Chart for Ratings Average
+      .chart-wrapper
+        h2 Ratings Average
+        canvas#ratingsAverageChart(width="300", height="150")
+
+      // Chart for Ratings Quantity
+      .chart-wrapper
+        h2 Ratings Quantity
+        canvas#ratingsQuantityChart(width="300", height="150")
+
+      // Chart for Max Group Size
+      .chart-wrapper
+        h2 Max Group Size
+        canvas#maxGroupSizeChart(width="300", height="150")
+
+      // Chart for Booking Statistics
+      .chart-wrapper
+        h2 Booking Statistics
+        canvas#bookingChart(width="300", height="150")
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js")
+    script.
+      // Fetch data from the API endpoint for Tour Bookings
+      fetch('http://127.0.0.1:3000/api/v1/bookings/stat')
+          .then(response => response.json())
+          .then(({ status, data }) => {
+              const bookingData = data.doc;
+
+              const tourNamesForBookings = bookingData.map(entry => entry._id[0]);
+              const numOfUsers = bookingData.map(entry => entry.numofusers);
+              const totalRevenue = bookingData.map(entry => entry.totalRevenue);
+              const avgPrice = bookingData.map(entry => entry.avgPrice);
+
+              new Chart('tourBookingsChart', {
+                  type: 'line',
+                  data: {
+                      labels: tourNamesForBookings,
+                      datasets: [
+                          { label: 'Number of Users', data: numOfUsers, borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 },
+                          { label: 'Total Revenue', data: totalRevenue, borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 },
+                          { label: 'Average Price', data: avgPrice, borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }
+                      ]
+                  },
+                  options: {
+                      scales: {
+                          y: { beginAtZero: true }
+                      }
+                  }
+              });
+          })
+          .catch(error => console.error('Error fetching booking data:', error));
+
+      // Fetching tour data for Ratings Average, Ratings Quantity, and Max Group Size
+      fetch('http://127.0.0.1:3000/api/v1/tours')
+          .then(response => response.json())
+          .then(({ data: { doc }}) => {
+              const tourNames = doc.map(({ name }) => name);
+              const ratingsAverage = doc.map(({ ratingsAverage }) => ratingsAverage);
+              const ratingsQuantity = doc.map(({ ratingsQuantity }) => ratingsQuantity);
+              const maxGroupSize = doc.map(({ maxGroupSize }) => maxGroupSize);
+
+              // Creating chart for Ratings Average
+              new Chart('ratingsAverageChart', {
+                  type: 'bar',
+                  data: { labels: tourNames, datasets: [{ label: 'Ratings Average', data: ratingsAverage, backgroundColor: 'rgba(255, 99, 132, 0.2)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }] },
+                  options: { scales: { y: { beginAtZero: true }}}
+              });
+
+              // Creating chart for Ratings Quantity
+              new Chart('ratingsQuantityChart', {
+                  type: 'bar',
+                  data: { labels: tourNames, datasets: [{ label: 'Ratings Quantity', data: ratingsQuantity, backgroundColor: 'rgba(54, 162, 235, 0.2)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }] },
+                  options: { scales: { y: { beginAtZero: true }}}
+              });
+
+              // Creating chart for Max Group Size
+              new Chart('maxGroupSizeChart', {
+                  type: 'bar',
+                  data: { labels: tourNames, datasets: [{ label: 'Max Group Size', data: maxGroupSize, backgroundColor: 'rgba(255, 206, 86, 0.2)', borderColor: 'rgba(255, 206, 86, 1)', borderWidth: 1 }] },
+                  options: { scales: { y: { beginAtZero: true }}}
+              });
+
+              // Fetching data for Booking Statistics
+              fetch('http://127.0.0.1:3000/api/v1/bookings/')
+                .then(response => response.json())
+                .then(({ status, results, data }) => {
+                    const totalBookings = results;
+                    document.querySelector('h1.heading-secondary').textContent += ` (Total Bookings: ${totalBookings})`;
+                    const tourBookings = data.doc.reduce((acc, booking) => {
+                        const tourName = booking.tour.name;
+                        acc[tourName] = acc[tourName] ? acc[tourName] + 1 : 1;
+                        return acc;
+                    }, {});
+
+                    const tourNamesForBookingsStats = Object.keys(tourBookings);
+                    const bookingCounts = Object.values(tourBookings);
+
+                    // Creating chart for Booking Statistics
+                    new Chart('bookingChart', {
+                        type: 'bar',
+                        data: { labels: tourNamesForBookingsStats, datasets: [{ label: 'Number of Bookings', data: bookingCounts, backgroundColor: 'rgba(75, 192, 192, 0.2)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 }] },
+                        options: { scales: { y: { beginAtZero: true }}}
+                    });
+                })
+                .catch(error => console.error('Error fetching booking data for Booking Statistics:', error));
+          })
+          .catch(error => console.error('Error fetching tour data:', error));
