@@ -29,10 +29,6 @@ block content
         h2 Max Group Size
         canvas#maxGroupSizeChart(width="300", height="150")
 
-      // Chart for Booking Statistics
-      .chart-wrapper
-        h2 Booking Statistics
-        canvas#bookingChart(width="300", height="150")
 
     script(src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js")
     script.
@@ -95,29 +91,6 @@ block content
                   data: { labels: tourNames, datasets: [{ label: 'Max Group Size', data: maxGroupSize, backgroundColor: 'rgba(255, 206, 86, 0.2)', borderColor: 'rgba(255, 206, 86, 1)', borderWidth: 1 }] },
                   options: { scales: { y: { beginAtZero: true }}}
               });
-
-              // Fetching data for Booking Statistics
-              fetch('http://127.0.0.1:3000/api/v1/bookings/')
-                .then(response => response.json())
-                .then(({ status, results, data }) => {
-                    const totalBookings = results;
-                    document.querySelector('h1.heading-secondary').textContent += ` (Total Bookings: ${totalBookings})`;
-                    const tourBookings = data.doc.reduce((acc, booking) => {
-                        const tourName = booking.tour.name;
-                        acc[tourName] = acc[tourName] ? acc[tourName] + 1 : 1;
-                        return acc;
-                    }, {});
-
-                    const tourNamesForBookingsStats = Object.keys(tourBookings);
-                    const bookingCounts = Object.values(tourBookings);
-
-                    // Creating chart for Booking Statistics
-                    new Chart('bookingChart', {
-                        type: 'bar',
-                        data: { labels: tourNamesForBookingsStats, datasets: [{ label: 'Number of Bookings', data: bookingCounts, backgroundColor: 'rgba(75, 192, 192, 0.2)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 }] },
-                        options: { scales: { y: { beginAtZero: true }}}
-                    });
-                })
-                .catch(error => console.error('Error fetching booking data for Booking Statistics:', error));
           })
-          .catch(error => console.error('Error fetching tour data:', error));
+
+
