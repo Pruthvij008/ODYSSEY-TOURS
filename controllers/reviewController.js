@@ -15,6 +15,12 @@ exports.setTourUserIds = (req, res, next) => {
   }
   next();
 };
+exports.getReviewForm = (req, res) => {
+  res.status(200).render('reviewForm', {
+    tourId: req.params.tourId,
+    userId: req.user.id
+  });
+};
 exports.getallreview = factory.getAll(Review);
 //lecture number 162 creating a midlleware for the create review additional part in order to use the model factory function
 //this midlle ware is added in the review routes .post midlleware

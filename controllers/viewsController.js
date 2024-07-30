@@ -22,6 +22,34 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     tours
   });
 });
+exports.myreview = catchAsync(async (req, res, next) => {
+  // Fetch reviews for the logged-in user
+  const reviews = await Review.find({ user: req.user.id });
+
+  // Extract tour ids from reviews
+  const tourIds = reviews.map(review => review.tour);
+
+  // Fetch tour details using tour ids
+  const tours = await Tour.find({ _id: { $in: tourIds } });
+
+  // Create a map for quick lookup of tour names by tour id
+  const tourMap = {};
+  tours.forEach(tour => {
+    tourMap[tour._id.toString()] = tour.name;
+  });
+
+  // Map tour names to reviews
+  reviews.forEach(review => {
+    review.tourName = tourMap[review.tour.toString()];
+  });
+
+  // Render the page with reviews and tour names
+  res.status(200).render('myreviews', {
+    title: 'My Reviews',
+    reviews
+  });
+});
+
 exports.profile = catchAsync(async (req, res) => {
   const users = await User.find();
   res.status(200).render('profile', {
@@ -168,9 +196,12 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   const tourIDs = bookings.map(el => el.tour);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
 
-  res.status(200).render('overview', {
+  const currentDate = new Date();
+
+  res.status(200).render('mybooking', {
     title: 'My Tours',
-    tours
+    tours,
+    currentDate
   });
 });
 const signToken = id => {

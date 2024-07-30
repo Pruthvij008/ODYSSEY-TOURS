@@ -3,8 +3,21 @@ const viewsController = require('../controllers/viewsController');
 const authController = require('../controllers/authController');
 const bookingController = require('../controllers/bookingController');
 
-const router = express.Router();
+const reviewController = require('./../controllers/reviewController');
+// const authController = require('./../controllers/authController');
 
+const router = express.Router();
+router.get(
+  '/new/:tourId',
+  authController.protect,
+  reviewController.getReviewForm
+);
+router.post(
+  '/reviews',
+  authController.protect,
+  reviewController.setTourUserIds,
+  reviewController.createreview
+);
 router.get(
   '/alltours',
   bookingController.createBookingCheckout,
@@ -39,9 +52,8 @@ router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
 router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
 router.get('/me', authController.protect, viewsController.getAccount);
-
 router.get('/my-tours', authController.protect, viewsController.getMyTours);
-
+router.get('/myreviews', authController.protect, viewsController.myreview);
 router.get('/forgot-password', viewsController.forgotpassword);
 
 router.get('/', authController.isLoggedIn, viewsController.home);
